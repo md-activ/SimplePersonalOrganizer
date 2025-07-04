@@ -35,4 +35,17 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "UserDB", nul
         cursor.close()
         return list
     }
+
+    fun getAllUsers(): ArrayList<Pair<String, String>> {
+        val list = ArrayList<Pair<String, String>>()
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM Users", null)
+        while (cursor.moveToNext()) {
+            val name = cursor.getString(cursor.getColumnIndexOrThrow("name"))
+            val email = cursor.getString(cursor.getColumnIndexOrThrow("email"))
+            list.add(Pair(name, email))
+        }
+        cursor.close()
+        return list
+    }
 }
